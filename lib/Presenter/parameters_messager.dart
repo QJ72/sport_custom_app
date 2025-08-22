@@ -1,11 +1,16 @@
+import 'dart:io';
+
 enum WeightMetric { kg, lb }
 
 class ParametersMessager {
   static WeightMetric currentMetricChoice = WeightMetric.kg;
   static List<String> weightMetricChoice = ["kg", "lb"];
   static String sourcesDirectory = "sources";
-  static String workoutDirectory = "$sourcesDirectory/workouts";
-  static String templateDirectory = "$sourcesDirectory/templates";
+  static String workoutsPath = "$sourcesDirectory/workouts";
+  static String templatesPath = "$sourcesDirectory/templates";
+
+  static Directory workoutsDirectory = Directory(workoutsPath);
+  static Directory templatesDirectory = Directory(templatesPath);
 
   static String getWeightMetricChoice(){
     return weightMetricChoice.elementAt(currentMetricChoice.index);

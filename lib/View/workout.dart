@@ -139,7 +139,7 @@ class _WorkoutState extends State<Workout> {
           final fileName = '${now.year}-${now.month}-${now.day}';
 
           final File file = File(
-            '${ParametersMessager.workoutDirectory}/$fileName.json',
+            '${ParametersMessager.workoutsPath}/$fileName.json',
           );
 
           List<dynamic> workoutsList = [];
@@ -194,7 +194,7 @@ class _WorkoutState extends State<Workout> {
                         List<Workout> workoutsList = [widget];
 
                         final File file = File(
-                          '${ParametersMessager.templateDirectory}/${ _capitalizeWords(_templateNameInputController.text)}.json',
+                          '${ParametersMessager.templatesPath}/${ _capitalizeWords(_templateNameInputController.text)}.json',
                         );
                         String json = jsonEncode(workoutsList);
 

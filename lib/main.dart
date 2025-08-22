@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:sport_custom_app/View/inside_main_drawer.dart';
 import 'package:sport_custom_app/View/parameters_page.dart';
 import 'package:sport_custom_app/View/workout.dart';
 
@@ -34,6 +35,8 @@ class MyApp extends StatelessWidget {
 class MainWindow extends StatefulWidget {
   late Widget _body;
 
+
+
   MainWindow() {
     _body = Workout();
   }
@@ -42,6 +45,13 @@ class MainWindow extends StatefulWidget {
 }
 
 class _MainWindowState extends State<MainWindow> {
+
+  void _setBody(Widget newBody){
+    setState(() {
+      widget._body = newBody;
+    });
+  }
+
   ElevatedButton createLoadWorkoutButton(BuildContext context) {
     return ElevatedButton.icon(
       label: Text('Load'),
@@ -97,7 +107,9 @@ class _MainWindowState extends State<MainWindow> {
           ),
         ],
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: InsideMainDrawer( _setBody),
+      ),
       body: widget._body,
     );
   }
