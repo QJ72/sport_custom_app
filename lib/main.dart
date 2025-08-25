@@ -1,8 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:sport_custom_app/Presenter/workouts_manager.dart';
 import 'package:sport_custom_app/View/inside_main_drawer.dart';
 import 'package:sport_custom_app/View/parameters_page.dart';
 import 'package:sport_custom_app/View/workout.dart';
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
 
 class MainWindow extends StatefulWidget {
   late Widget _body;
+  final WorkoutsManager _workoutsManager = WorkoutsManager();
 
 
 
@@ -67,9 +67,7 @@ class _MainWindowState extends State<MainWindow> {
         if (result != null && result.files.single.path != null) {
         String filePath = result.files.single.path!;
 
-        final File file = File(filePath);
-        final String contents = await file.readAsString();
-        final List<dynamic> jsonData = jsonDecode(contents) as List<dynamic>;
+        final List<dynamic> jsonData = await widget._workoutsManager.readJsonWorkoutFile(filePath);
 
         setState(() {
           widget._body = Workout.fromJson(jsonData.elementAt(0));

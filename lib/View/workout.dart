@@ -4,12 +4,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sport_custom_app/Presenter/parameters_messager.dart';
+import 'package:sport_custom_app/Presenter/workouts_manager.dart';
 import 'package:sport_custom_app/View/exercise.dart';
 
 part '../Presenter/workout.g.dart';
 
 @JsonSerializable()
 class Workout extends StatefulWidget {
+  final WorkoutsManager workoutsManager = WorkoutsManager();
   late List<Exercise> exercises;
 
   Workout({List<Exercise>? exercises}) {
@@ -129,32 +131,13 @@ class _WorkoutState extends State<Workout> {
 
   ElevatedButton createSaveWorkoutButton(BuildContext context) {
     return ElevatedButton.icon(
-      label: Text(''),
+      label: Text('save Workout'),
       icon: Icon(Icons.save),
       iconAlignment: IconAlignment.end,
       onPressed: () {
         setState(() {
-          final now = DateTime.now();
 
-          final fileName = '${now.year}-${now.month}-${now.day}';
-
-          final File file = File(
-            '${ParametersMessager.workoutsPath}/$fileName.json',
-          );
-
-          List<dynamic> workoutsList = [];
-
-          if (file.existsSync()) {
-            final String content = file.readAsStringSync();
-            if (content.trim().isNotEmpty) {
-              workoutsList = jsonDecode(content);
-            }
-          }
-
-          workoutsList.add(widget);
-          String json = jsonEncode(workoutsList);
-
-          file.writeAsStringSync(json, mode: FileMode.writeOnly);
+          widget.workoutsManager.saveWorkout(widget);
 
           widget.exercises.clear();
           _exerciseNameInputController.clear();

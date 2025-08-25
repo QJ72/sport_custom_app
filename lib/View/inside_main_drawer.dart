@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sport_custom_app/Presenter/parameters_messager.dart';
+import 'package:sport_custom_app/Presenter/workouts_manager.dart';
 import 'package:sport_custom_app/View/workout.dart';
 
 class InsideMainDrawer extends StatefulWidget {
@@ -10,37 +11,11 @@ class InsideMainDrawer extends StatefulWidget {
 
   InsideMainDrawer(this._onBodyChange);
 
+  final WorkoutsManager _workoutsManager = WorkoutsManager();
+
   @override
   State<StatefulWidget> createState() => _InsideMainDrawerState();
 
-  Future<List<File>> getFiles(Directory directory) async {
-    List<File> filesList = [];
-
-    await for (FileSystemEntity entity in directory.list(
-      recursive: true,
-      followLinks: false,
-    )) {
-      filesList.add(entity as File);
-    }
-
-    print(directory);
-    return filesList;
-  }
-
-  List<String> getFilesName(List<File> filesList) {
-    List<String> namesList = [];
-
-    print("inside getFilesName, filesList : $filesList ");
-
-    for (var file in filesList) {
-      print("file path : ${file.path}");
-      namesList.add(file.path.split('/').last);
-    }
-
-    print("inside getFilesName $namesList");
-
-    return namesList;
-  }
 }
 
 class _InsideMainDrawerState extends State<InsideMainDrawer> {
@@ -69,11 +44,11 @@ class _InsideMainDrawerState extends State<InsideMainDrawer> {
   Future<List<ElevatedButton>> createFutureButtons(Directory directory) async {
     List<ElevatedButton> buttonsList = [];
 
-    List<File> filesList = await widget.getFiles(directory);
+    List<File> filesList = await widget._workoutsManager.getFiles(directory);
 
     print("fileList just after getFiles : $filesList");
 
-    List<String> namesList = widget.getFilesName(filesList);
+    List<String> namesList = widget._workoutsManager.getFilesName(filesList);
 
     print("fileList : $filesList");
     print("nameList : $namesList");
